@@ -36,7 +36,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       {/* Navigation */}
       <nav className="fixed w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference text-white">
-        <div className="text-xl tracking-[0.2em] font-serif font-bold">DISTINCT</div>
+        <div className="text-xl tracking-[0.2em] font-serif font-bold">DISTINCT CO-WORKING</div>
       </nav>
 
       {/* Hero Section */}
@@ -60,14 +60,15 @@ export default function Home() {
           <Reveal delay={0.2}>
             <p className="text-lg md:text-xl text-neutral-300 font-light tracking-wide max-w-2xl mx-auto mb-10">
               An ultra-premium workspace curated for the ambitious. 
-              Refined aesthetics, unparalleled service, and absolute privacy.
+              Distinct Co-working provides a thoughtfully designed luxury environment 
+              built for professionals, startups, and growing teams.
             </p>
           </Reveal>
         </div>
       </section>
 
       {/* Locations Section */}
-      <section className="py-32 px-6 bg-secondary/20">
+      <section className="py-32 px-6 bg-secondary/20 border-y border-white/5">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
@@ -76,7 +77,7 @@ export default function Home() {
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <Reveal delay={0.1}>
               <div className="group relative aspect-[16/10] overflow-hidden border border-white/5 bg-neutral-900">
                 <img 
@@ -84,9 +85,9 @@ export default function Home() {
                   className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
                   alt="Malviya Nagar"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                <div className="absolute bottom-8 left-8 right-8">
-                  <h3 className="text-3xl font-serif mb-4">Malviya Nagar</h3>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+                <div className="absolute bottom-10 left-10 right-10">
+                  <h3 className="text-4xl font-serif mb-4">Malviya Nagar</h3>
                   <Link href="/locations/malviya-nagar">
                     <LuxuryButton variant="outline" className="border-primary/50 text-primary group-hover:bg-primary group-hover:text-black transition-all">
                       Explore Space <ArrowRight className="ml-2 w-4 h-4" />
@@ -104,8 +105,8 @@ export default function Home() {
                   alt="MP Nagar"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <h3 className="text-3xl font-serif mb-2">MP Nagar</h3>
-                  <span className="bg-primary/20 text-primary text-[10px] uppercase tracking-widest px-3 py-1 border border-primary/30">Opening Soon</span>
+                  <h3 className="text-4xl font-serif mb-2">MP Nagar</h3>
+                  <span className="bg-primary/20 text-primary text-[10px] uppercase tracking-widest px-4 py-2 border border-primary/30">Opening Soon</span>
                 </div>
               </div>
             </Reveal>
@@ -119,8 +120,8 @@ export default function Home() {
           <Reveal>
             <div className="text-center mb-16 space-y-4">
               <Calendar className="w-10 h-10 text-primary mx-auto mb-4" />
-              <h2 className="text-4xl md:text-5xl font-serif">General Inquiry</h2>
-              <p className="text-neutral-400 font-light">Connect with our concierge team for any assistance.</p>
+              <h2 className="text-4xl md:text-5xl font-serif text-center w-full">Begin Your Journey</h2>
+              <p className="text-neutral-400 font-light text-center">Connect with our concierge team to find your ideal workspace.</p>
             </div>
           </Reveal>
 
@@ -164,7 +165,7 @@ export default function Home() {
                         <FormLabel className="text-xs uppercase tracking-wider text-neutral-500">Message</FormLabel>
                         <FormControl>
                           <Textarea 
-                            placeholder="How can we help you?" 
+                            placeholder="Tell us about your requirements..." 
                             className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors min-h-[100px] resize-none" 
                             {...field} 
                           />
@@ -193,9 +194,9 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-12 border-t border-white/5 bg-black text-center">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-2xl font-serif font-bold tracking-widest mb-4">DISTINCT</div>
-          <div className="text-neutral-600 text-xs">
-            © {new Date().getFullYear()} Distinct Spaces. All rights reserved.
+          <div className="text-2xl font-serif font-bold tracking-widest mb-4">DISTINCT CO-WORKING</div>
+          <div className="text-neutral-600 text-[10px] uppercase tracking-widest">
+            info.distinctcoworking@gmail.com | +91 6366460968
           </div>
         </div>
       </footer>
