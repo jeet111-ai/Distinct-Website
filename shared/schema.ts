@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -8,6 +8,7 @@ export const bookings = pgTable("bookings", {
   email: text("email").notNull(),
   phone: text("phone"),
   company: text("company"),
+  location: text("location"), // Added to track which location they are interested in
   message: text("message"),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -17,6 +18,7 @@ export const insertBookingSchema = createInsertSchema(bookings).pick({
   email: true,
   phone: true,
   company: true,
+  location: true,
   message: true,
 });
 
