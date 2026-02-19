@@ -6,10 +6,9 @@ import { useCreateBooking } from "@/hooks/use-bookings";
 import { Reveal } from "@/components/ui/reveal";
 import { LuxuryButton } from "@/components/ui/luxury-button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link } from "wouter";
-import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Search } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Mail, Phone, Search } from "lucide-react";
 
 export default function Home() {
   const createBooking = useCreateBooking();
@@ -31,6 +30,8 @@ export default function Home() {
       onSuccess: () => form.reset()
     });
   };
+
+  const mapUrl = "https://www.google.com/maps/dir//Lower+Ground+Floor,+Distinct+Co-working,+Harisons+House,+6,+Rajbhavan+Rd,+Malviya+Nagar,+Bhopal,+Madhya+Pradesh+462003/@23.2392843,77.4027938,17z/data=!4m16!1m7!3m6!1s0x397c43c91d370e13:0xf68319a51f4bc03e!2sDistinct+Co-working!8m2!3d23.2392794!4d77.4053687!16s%2Fg%2F11yywgqy1m!4m7!1m0!1m5!1m1!1s0x397c43c91d370e13:0xf68319a51f4bc03e!2m2!1d77.4053687!2d23.2392794?entry=ttu&g_ep=EgoyMDI2MDIxNi4wIKXMDSoASAFQAw%3D%3D";
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
@@ -203,78 +204,84 @@ export default function Home() {
 
       {/* Footer / Detailed Contact Section */}
       <footer className="py-24 px-6 bg-black border-t border-white/10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
-          <div className="space-y-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+          <div className="space-y-8 text-left">
             <div className="text-2xl font-serif font-bold tracking-widest text-primary">DISTINCT CO-WORKING</div>
-            <p className="text-neutral-400 text-sm leading-relaxed font-light">
-              Redefining luxury workspace standards in Bhopal. Curated for leaders, designed for growth.
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <h4 className="text-primary text-xs tracking-widest uppercase">Contact Information</h4>
-            <div className="space-y-4 text-neutral-300 font-light text-sm">
-              <p className="flex flex-col gap-1">
-                <span className="text-neutral-500 uppercase text-[10px] tracking-widest">Email</span>
-                <a href="mailto:info.distinctcoworking@gmail.com" className="hover:text-primary transition-colors">info.distinctcoworking@gmail.com</a>
-              </p>
-              <p className="flex flex-col gap-1">
-                <span className="text-neutral-500 uppercase text-[10px] tracking-widest">Phone</span>
-                <span className="flex flex-col">
+            <div className="space-y-6">
+              <div className="flex items-start gap-4">
+                <MapPin className="w-5 h-5 text-primary mt-1 shrink-0" />
+                <div className="text-neutral-300 font-light text-sm leading-relaxed">
+                  Distinct Co-working, Lower Ground floor,<br />
+                  Harisons House, No.6 Raj Bhavan Road,<br />
+                  Malviya Nagar, Bhopal - 462003, MP
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <Mail className="w-5 h-5 text-primary shrink-0" />
+                <a href="mailto:info.distinctcoworking@gmail.com" className="text-neutral-300 font-light text-sm hover:text-primary transition-colors">
+                  info.distinctcoworking@gmail.com
+                </a>
+              </div>
+              <div className="flex items-start gap-4">
+                <Phone className="w-5 h-5 text-primary mt-1 shrink-0" />
+                <div className="flex flex-col text-neutral-300 font-light text-sm">
                   <a href="tel:+916366460968" className="hover:text-primary transition-colors">+91 6366460968</a>
                   <a href="tel:+919243807744" className="hover:text-primary transition-colors">+91 9243807744</a>
-                </span>
-              </p>
-              <p className="flex flex-col gap-1">
-                <span className="text-neutral-500 uppercase text-[10px] tracking-widest">Location</span>
-                <span>Distinct Co-working, Lower Ground floor, Harisons House, No.6 Raj Bhavan Road, Malviya Nagar, Bhopal - 462003, Madhya Pradesh</span>
-              </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <h4 className="text-primary text-xs tracking-widest uppercase">Find Us</h4>
-            <div className="aspect-square bg-neutral-900 border border-white/10 relative overflow-hidden group">
-              {/* Google Maps link UI */}
+          <div className="space-y-8 text-left">
+            <h4 className="text-primary text-xs tracking-widest uppercase font-semibold">Find Your Way</h4>
+            <div className="aspect-[16/9] bg-neutral-900 border border-white/10 relative overflow-hidden group rounded-sm">
               <a 
-                href="https://maps.app.goo.gl/9ZpYp9vPjPjPjPjP9" 
+                href={mapUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="absolute inset-0 flex items-center justify-center bg-neutral-800/50 group-hover:bg-neutral-800/30 transition-all"
+                className="absolute inset-0 flex items-center justify-center bg-neutral-800/40 hover:bg-neutral-800/20 transition-all"
               >
-                <div className="text-center">
+                <div className="text-center group-hover:scale-105 transition-transform">
                   <MapPin className="w-10 h-10 text-primary mx-auto mb-3" />
-                  <span className="text-[10px] uppercase tracking-widest text-white border border-white/20 px-3 py-1">Open in Google Maps</span>
+                  <span className="text-[10px] uppercase tracking-widest text-white border border-primary/30 bg-black/40 px-4 py-2 backdrop-blur-sm">Get Directions</span>
                 </div>
               </a>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <h4 className="text-primary text-xs tracking-widest uppercase">Follow Us</h4>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2 text-center">
-                <div className="aspect-square bg-white p-2 rounded-sm flex items-center justify-center">
-                  <div className="w-full h-full bg-neutral-200 animate-pulse flex items-center justify-center text-[8px] text-neutral-400">QR CODE</div>
+          <div className="space-y-8 text-left">
+            <h4 className="text-primary text-xs tracking-widest uppercase font-semibold">Digital Presence</h4>
+            <div className="grid grid-cols-3 gap-6">
+              <div className="space-y-3">
+                <div className="aspect-square bg-white p-1 rounded-sm flex items-center justify-center">
+                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-[8px] text-neutral-400 font-sans italic">QR CODE</div>
                 </div>
-                <a href="https://www.instagram.com/distinctcoworking/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-[10px] uppercase tracking-widest hover:text-primary transition-colors flex items-center justify-center gap-1">
+                <a href="https://www.instagram.com/distinctcoworking/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-[9px] uppercase tracking-widest hover:text-primary transition-colors flex flex-col items-center gap-1">
                   <Instagram className="w-3 h-3" /> Instagram
                 </a>
               </div>
-              <div className="space-y-2 text-center">
-                <div className="aspect-square bg-white p-2 rounded-sm flex items-center justify-center">
-                  <div className="w-full h-full bg-neutral-200 animate-pulse flex items-center justify-center text-[8px] text-neutral-400">QR CODE</div>
+              <div className="space-y-3">
+                <div className="aspect-square bg-white p-1 rounded-sm flex items-center justify-center">
+                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-[8px] text-neutral-400 font-sans italic">QR CODE</div>
                 </div>
-                <span className="text-neutral-400 text-[10px] uppercase tracking-widest flex items-center justify-center gap-1">
+                <div className="text-neutral-400 text-[9px] uppercase tracking-widest flex flex-col items-center gap-1">
                   <Facebook className="w-3 h-3" /> Facebook
-                </span>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div className="aspect-square bg-white p-1 rounded-sm flex items-center justify-center">
+                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-[8px] text-neutral-400 font-sans italic">QR CODE</div>
+                </div>
+                <div className="text-neutral-400 text-[9px] uppercase tracking-widest flex flex-col items-center gap-1">
+                  <Search className="w-3 h-3" /> Google
+                </div>
               </div>
             </div>
           </div>
         </div>
         
         <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-center text-neutral-600 text-[10px] uppercase tracking-widest">
-          © {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.
+          © {new Date().getFullYear()} Distinct Co-working Spaces.
         </div>
       </footer>
     </div>
