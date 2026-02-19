@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link } from "wouter";
-import { MapPin, Calendar, ArrowRight } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor } from "lucide-react";
 
 export default function Home() {
   const createBooking = useCreateBooking();
@@ -67,8 +67,112 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Lead Generation Form - Premium Placement */}
+      <section className="py-32 px-6 bg-secondary/10 relative">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <Reveal>
+            <div className="space-y-6">
+              <span className="text-primary text-xs tracking-[0.2em] uppercase">Connect With Us</span>
+              <h2 className="text-4xl md:text-5xl font-serif leading-tight">Secure Your Private Tour</h2>
+              <p className="text-neutral-400 font-light text-lg">
+                Experience the epitome of workspace luxury. Leave your details and our concierge will reach out to curate your visit.
+              </p>
+            </div>
+          </Reveal>
+          
+          <Reveal delay={0.2}>
+            <div className="bg-background p-8 md:p-10 border border-white/5 shadow-2xl">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="Full Name" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-12" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="Email Address" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-12" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Tell us about your requirements..." 
+                            className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors min-h-[80px] resize-none" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <LuxuryButton 
+                    type="submit" 
+                    variant="solid" 
+                    className="w-full"
+                    disabled={createBooking.isPending}
+                  >
+                    {createBooking.isPending ? "Processing..." : "Submit Inquiry"}
+                  </LuxuryButton>
+                </form>
+              </Form>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Our Offerings - New Section */}
+      <section className="py-32 px-6 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <span className="text-primary text-xs tracking-[0.2em] uppercase">Our Expertise</span>
+              <h2 className="text-4xl md:text-6xl font-serif mt-4">Premium Offerings</h2>
+            </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {[
+              { title: "Private Offices", icon: Shield, desc: "Soundproofed executive suites for absolute privacy and focus." },
+              { title: "Hot Desk", icon: Users, desc: "Flexible workspace in a dynamic, professional environment." },
+              { title: "Conference Rooms", icon: Monitor, desc: "High-tech meeting spaces for seamless collaboration." }
+            ].map((offering, i) => (
+              <Reveal key={offering.title} delay={i * 0.1}>
+                <div className="text-center space-y-6 group">
+                  <div className="w-16 h-16 mx-auto flex items-center justify-center border border-primary/20 rounded-full group-hover:bg-primary/10 transition-colors">
+                    <offering.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-2xl font-serif">{offering.title}</h3>
+                  <p className="text-neutral-500 font-light leading-relaxed">{offering.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Locations Section */}
-      <section className="py-32 px-6 bg-secondary/20 border-y border-white/5">
+      <section className="py-32 px-6 bg-secondary/10 border-y border-white/5">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
@@ -111,83 +215,6 @@ export default function Home() {
               </div>
             </Reveal>
           </div>
-        </div>
-      </section>
-
-      {/* Inquiry Form */}
-      <section className="py-32 px-6">
-        <div className="max-w-3xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-16 space-y-4">
-              <Calendar className="w-10 h-10 text-primary mx-auto mb-4" />
-              <h2 className="text-4xl md:text-5xl font-serif text-center w-full">Begin Your Journey</h2>
-              <p className="text-neutral-400 font-light text-center">Connect with our concierge team to find your ideal workspace.</p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            <div className="bg-secondary/30 p-8 md:p-12 border border-white/5">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-xs uppercase tracking-wider text-neutral-500">Full Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-12" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-xs uppercase tracking-wider text-neutral-500">Email Address</FormLabel>
-                          <FormControl>
-                            <Input placeholder="john@company.com" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-12" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-xs uppercase tracking-wider text-neutral-500">Message</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Tell us about your requirements..." 
-                            className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors min-h-[100px] resize-none" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="pt-6 flex justify-center">
-                    <LuxuryButton 
-                      type="submit" 
-                      variant="solid" 
-                      className="w-full md:w-auto min-w-[200px]"
-                      disabled={createBooking.isPending}
-                    >
-                      {createBooking.isPending ? "Submitting..." : "Submit Inquiry"}
-                    </LuxuryButton>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          </Reveal>
         </div>
       </section>
 

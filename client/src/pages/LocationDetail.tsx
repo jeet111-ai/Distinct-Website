@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertBookingSchema, type InsertBooking } from "@shared/schema";
@@ -5,32 +6,38 @@ import { useCreateBooking } from "@/hooks/use-bookings";
 import { Reveal } from "@/components/ui/reveal";
 import { LuxuryButton } from "@/components/ui/luxury-button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link } from "wouter";
 import { 
   Users, Monitor, Briefcase, Globe, 
-  Video, Coffee, Armchair, Zap, 
-  ChevronLeft, LayoutGrid, CheckCircle2 
+  Video, Armchair, LayoutGrid, CheckCircle2,
+  ChevronLeft
 } from "lucide-react";
 
 const offerings = [
   { 
     title: "4-Seater Private Cabin", 
     icon: Users, 
-    desc: "A thoughtfully designed 4-seater private cabin ideal for small teams that need focus, comfort, and a professional setting. Fully furnished with ergonomic workstations, high-speed internet, and a lockable layout, this space offers the perfect balance of privacy and collaboration within the vibrant ecosystem of Distinct Co-working." 
+    img: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1200",
+    desc: "A thoughtfully designed 4-seater private cabin ideal for small teams that need focus, comfort, and a professional setting." 
   },
   { 
     title: "6-Seater Private Cabin", 
     icon: Users, 
-    desc: "An exclusive, fully serviced 6-seater executive cabin crafted for teams that value privacy, prestige, and performance. Thoughtfully designed with premium furnishings, ergonomic workstations, and seamless high-speed connectivity, this lockable space offers a refined, distraction-free setting for strategic work and high-value client meetings — all within the sophisticated ecosystem of Distinct Co-working." 
+    img: "https://images.unsplash.com/photo-1497215842964-2229243eefd4?auto=format&fit=crop&q=80&w=1200",
+    desc: "An exclusive, fully serviced 6-seater executive cabin crafted for teams that value privacy, prestige, and performance." 
   },
-  { title: "Hot Desk / Open Desk", icon: Armchair, desc: "Flexible, vibrant workspaces in our shared lounge. Our space is ideal for entrepreneurs, startups, and growing teams who want more than just a desk—they want the right environment to do their best work." },
-  { title: "4-Seater Conference Room", icon: Video, desc: "Intimate rooms for focused collaborations and professional meetings." },
-  { title: "6-Seater Conference Room", icon: Monitor, desc: "Equipped for seamless hybrid presentations and team syncs." },
-  { title: "10-Seater Conference Room", icon: LayoutGrid, desc: "Boardroom excellence for major decisions and corporate presentations." },
-  { title: "Virtual Office", icon: Globe, desc: "Premium business identity without physical boundaries." },
-  { title: "Business Address", icon: Briefcase, desc: "Prestigious mailing address in Malviya Nagar, Harisons House." },
+  { 
+    title: "Hot Desk / Open Desk", 
+    icon: Armchair, 
+    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1200",
+    desc: "Flexible, vibrant workspaces in our shared lounge. Ideal for entrepreneurs and startups." 
+  },
+  { title: "4-Seater Conference Room", icon: Video, img: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800", desc: "Intimate rooms for focused collaborations." },
+  { title: "6-Seater Conference Room", icon: Monitor, img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800", desc: "Equipped for seamless hybrid presentations." },
+  { title: "10-Seater Conference Room", icon: LayoutGrid, img: "https://images.unsplash.com/photo-1604328698692-f76ea9498e76?auto=format&fit=crop&q=80&w=800", desc: "Boardroom excellence for major decisions." },
+  { title: "Virtual Office", icon: Globe, img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=800", desc: "Premium business identity without physical boundaries." },
+  { title: "Business Address", icon: Briefcase, img: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?auto=format&fit=crop&q=80&w=800", desc: "Prestigious mailing address in Malviya Nagar." },
 ];
 
 const amenities = [
@@ -44,15 +51,17 @@ const amenities = [
 ];
 
 const galleryImages = [
-  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1497215842964-2229243eefd4?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800",
-  "https://images.unsplash.com/photo-1604328698692-f76ea9498e76?auto=format&fit=crop&q=80&w=800"
+  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1600",
+  "https://images.unsplash.com/photo-1497215842964-2229243eefd4?auto=format&fit=crop&q=80&w=1600",
+  "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1600",
+  "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&q=80&w=1600"
 ];
 
 export default function LocationDetail() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const createBooking = useCreateBooking();
   const form = useForm<InsertBooking>({
     resolver: zodResolver(insertBookingSchema),
@@ -85,7 +94,6 @@ export default function LocationDetail() {
       {/* Hero */}
       <section className="pt-40 pb-24 px-6 text-center">
         <Reveal>
-          <span className="text-primary text-xs tracking-[0.2em] uppercase">The Branch</span>
           <h1 className="text-5xl md:text-7xl font-serif mt-4">Malviya Nagar</h1>
           <p className="text-neutral-400 font-light mt-6 max-w-2xl mx-auto italic">
             "A thoughtfully designed luxury workspace built for professionals, startups, and growing teams."
@@ -93,22 +101,34 @@ export default function LocationDetail() {
         </Reveal>
       </section>
 
-      {/* Offerings */}
+      {/* Our Spaces - Restructured with Real Photos */}
       <section className="py-24 px-6 bg-secondary/10">
         <div className="max-w-7xl mx-auto">
           <Reveal>
-            <div className="text-center mb-16">
-               <span className="text-primary text-xs tracking-[0.2em] uppercase">What We Offer</span>
+            <div className="text-center mb-20">
+               <span className="text-primary text-xs tracking-[0.2em] uppercase">Tailored Environments</span>
                <h2 className="text-4xl font-serif mt-4">Our Spaces</h2>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {offerings.map((item, i) => (
               <Reveal key={item.title} delay={i * 0.05}>
-                <div className="h-full bg-neutral-900 border border-white/5 p-8 hover:border-primary/30 transition-all group">
-                  <item.icon className="w-8 h-8 text-primary mb-6 transition-transform group-hover:scale-110" />
-                  <h3 className="text-2xl font-serif mb-4">{item.title}</h3>
-                  <p className="text-neutral-500 text-sm font-light leading-relaxed">{item.desc}</p>
+                <div className="group overflow-hidden bg-neutral-900 border border-white/5 hover:border-primary/30 transition-all">
+                  <div className="aspect-video overflow-hidden">
+                    <img 
+                      src={item.img} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" 
+                    />
+                  </div>
+                  <div className="p-8 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <item.icon className="w-6 h-6 text-primary" />
+                      <h3 className="text-2xl font-serif">{item.title}</h3>
+                    </div>
+                    <p className="text-neutral-500 text-sm font-light leading-relaxed">{item.desc}</p>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -116,39 +136,22 @@ export default function LocationDetail() {
         </div>
       </section>
 
-      {/* Breakout Zone Special */}
-      <section className="py-32 px-6">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <Reveal>
-            <h2 className="text-4xl font-serif">Breakout Zone</h2>
-            <p className="text-neutral-400 font-light text-lg leading-relaxed">
-              A vibrant relaxation corner designed to recharge your mind between tasks. 
-              Featuring indoor games and a curated selection of books, this space is perfect for 
-              unwinding, sparking creativity, or enjoying casual conversations with fellow members. 
-              The ideal balance of productivity and play, right inside the Distinct Co-working community.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Gallery */}
-      <section className="py-32 px-6 bg-secondary/5">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-16">
-              <span className="text-primary text-xs tracking-[0.2em] uppercase">The Environment</span>
-              <h2 className="text-4xl font-serif mt-4">Gallery of Distinction</h2>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {galleryImages.map((src, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="aspect-[4/3] overflow-hidden border border-white/5">
-                  <img src={src} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-                </div>
-              </Reveal>
-            ))}
+      {/* Gallery - Full Width Flow */}
+      <section className="py-32 overflow-hidden bg-background">
+        <Reveal>
+          <div className="text-center mb-20 px-6">
+            <span className="text-primary text-xs tracking-[0.2em] uppercase">Visual Journey</span>
+            <h2 className="text-4xl font-serif mt-4">Gallery of Distinction</h2>
           </div>
+        </Reveal>
+        <div className="flex flex-col gap-6">
+          {galleryImages.map((src, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <div className="w-full h-[60vh] md:h-[80vh] overflow-hidden">
+                <img src={src} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
@@ -195,9 +198,8 @@ export default function LocationDetail() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs uppercase tracking-wider text-neutral-500">Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="John Doe" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12" {...field} />
+                          <Input placeholder="Full Name" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -208,9 +210,8 @@ export default function LocationDetail() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs uppercase tracking-wider text-neutral-500">Email Address</FormLabel>
                         <FormControl>
-                          <Input placeholder="john@company.com" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12" {...field} />
+                          <Input placeholder="Email Address" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -218,7 +219,7 @@ export default function LocationDetail() {
                   />
                 </div>
                 <div className="pt-6 flex justify-center">
-                  <LuxuryButton type="submit" variant="solid" className="min-w-[200px]" disabled={createBooking.isPending}>
+                  <LuxuryButton type="submit" variant="solid" className="w-full md:w-auto min-w-[200px]" disabled={createBooking.isPending}>
                     {createBooking.isPending ? "Submitting..." : "Send Request"}
                   </LuxuryButton>
                 </div>
