@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link } from "wouter";
-import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Search } from "lucide-react";
 
 export default function Home() {
   const createBooking = useCreateBooking();
@@ -39,10 +39,10 @@ export default function Home() {
         <div className="text-xl tracking-[0.2em] font-serif font-bold">DISTINCT CO-WORKING</div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
+      {/* Hero Section with Upper Right Form */}
+      <section className="relative h-screen flex items-center px-6 md:px-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/60 z-10" />
+          <div className="absolute inset-0 bg-black/50 z-10" />
           <img 
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000"
             alt="Luxury Office Space"
@@ -50,77 +50,60 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto space-y-8">
-          <Reveal>
-            <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white tracking-tight">
-              Work <span className="text-primary italic">Distinctly</span>
-            </h1>
-          </Reveal>
-          
-          <Reveal delay={0.2}>
-            <p className="text-lg md:text-xl text-neutral-300 font-light tracking-wide max-w-2xl mx-auto mb-10">
-              An ultra-premium workspace curated for the ambitious. 
-              Distinct Co-working provides a thoughtfully designed luxury environment 
-              built for professionals, startups, and growing teams.
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Lead Generation Form - Premium Placement */}
-      <section className="py-32 px-6 bg-secondary/10 relative">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <Reveal>
-            <div className="space-y-6">
-              <span className="text-primary text-xs tracking-[0.2em] uppercase">Connect With Us</span>
-              <h2 className="text-4xl md:text-5xl font-serif leading-tight">Secure Your Private Tour</h2>
-              <p className="text-neutral-400 font-light text-lg">
-                Experience the epitome of workspace luxury. Leave your details and our concierge will reach out to curate your visit.
+        <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12">
+          {/* Left Side: Headline */}
+          <div className="lg:max-w-2xl space-y-8 text-center lg:text-left">
+            <Reveal>
+              <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white tracking-tight leading-none">
+                Work <br/><span className="text-primary italic">Distinctly</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-lg md:text-xl text-neutral-300 font-light tracking-wide max-w-xl">
+                An ultra-premium workspace curated for the ambitious. 
+                Distinct Co-working provides a thoughtfully designed luxury environment 
+                built for professionals, startups, and growing teams.
               </p>
-            </div>
-          </Reveal>
-          
-          <Reveal delay={0.2}>
-            <div className="bg-background p-8 md:p-10 border border-white/5 shadow-2xl">
+            </Reveal>
+          </div>
+
+          {/* Upper Right Side: Inquiry Form */}
+          <Reveal delay={0.4} className="w-full max-w-md lg:mt-[-4rem]">
+            <div className="bg-black/40 backdrop-blur-xl p-8 md:p-10 border border-white/10 shadow-2xl rounded-sm">
+              <h2 className="text-2xl font-serif text-white mb-6 text-center">Inquire Now</h2>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Full Name" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-12" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <Input placeholder="Email Address" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-12" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                   <FormField
                     control={form.control}
-                    name="message"
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Textarea 
-                            placeholder="Tell us about your requirements..." 
-                            className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors min-h-[80px] resize-none" 
-                            {...field} 
-                          />
+                          <Input placeholder="Full Name" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Email Address" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Mobile Number" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -129,10 +112,10 @@ export default function Home() {
                   <LuxuryButton 
                     type="submit" 
                     variant="solid" 
-                    className="w-full"
+                    className="w-full mt-4 h-12"
                     disabled={createBooking.isPending}
                   >
-                    {createBooking.isPending ? "Processing..." : "Submit Inquiry"}
+                    {createBooking.isPending ? "Processing..." : "Secure Access"}
                   </LuxuryButton>
                 </form>
               </Form>
@@ -141,7 +124,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Our Offerings - New Section */}
+      {/* Our Offerings */}
       <section className="py-32 px-6 bg-background">
         <div className="max-w-7xl mx-auto">
           <Reveal>
@@ -218,13 +201,80 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-white/5 bg-black text-center">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-2xl font-serif font-bold tracking-widest mb-4">DISTINCT CO-WORKING</div>
-          <div className="text-neutral-600 text-[10px] uppercase tracking-widest">
-            info.distinctcoworking@gmail.com | +91 6366460968
+      {/* Footer / Detailed Contact Section */}
+      <footer className="py-24 px-6 bg-black border-t border-white/10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16">
+          <div className="space-y-6">
+            <div className="text-2xl font-serif font-bold tracking-widest text-primary">DISTINCT CO-WORKING</div>
+            <p className="text-neutral-400 text-sm leading-relaxed font-light">
+              Redefining luxury workspace standards in Bhopal. Curated for leaders, designed for growth.
+            </p>
           </div>
+
+          <div className="space-y-6">
+            <h4 className="text-primary text-xs tracking-widest uppercase">Contact Information</h4>
+            <div className="space-y-4 text-neutral-300 font-light text-sm">
+              <p className="flex flex-col gap-1">
+                <span className="text-neutral-500 uppercase text-[10px] tracking-widest">Email</span>
+                <a href="mailto:info.distinctcoworking@gmail.com" className="hover:text-primary transition-colors">info.distinctcoworking@gmail.com</a>
+              </p>
+              <p className="flex flex-col gap-1">
+                <span className="text-neutral-500 uppercase text-[10px] tracking-widest">Phone</span>
+                <span className="flex flex-col">
+                  <a href="tel:+916366460968" className="hover:text-primary transition-colors">+91 6366460968</a>
+                  <a href="tel:+919243807744" className="hover:text-primary transition-colors">+91 9243807744</a>
+                </span>
+              </p>
+              <p className="flex flex-col gap-1">
+                <span className="text-neutral-500 uppercase text-[10px] tracking-widest">Location</span>
+                <span>Distinct Co-working, Lower Ground floor, Harisons House, No.6 Raj Bhavan Road, Malviya Nagar, Bhopal - 462003, Madhya Pradesh</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h4 className="text-primary text-xs tracking-widest uppercase">Find Us</h4>
+            <div className="aspect-square bg-neutral-900 border border-white/10 relative overflow-hidden group">
+              {/* Google Maps link UI */}
+              <a 
+                href="https://maps.app.goo.gl/9ZpYp9vPjPjPjPjP9" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="absolute inset-0 flex items-center justify-center bg-neutral-800/50 group-hover:bg-neutral-800/30 transition-all"
+              >
+                <div className="text-center">
+                  <MapPin className="w-10 h-10 text-primary mx-auto mb-3" />
+                  <span className="text-[10px] uppercase tracking-widest text-white border border-white/20 px-3 py-1">Open in Google Maps</span>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h4 className="text-primary text-xs tracking-widest uppercase">Follow Us</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2 text-center">
+                <div className="aspect-square bg-white p-2 rounded-sm flex items-center justify-center">
+                  <div className="w-full h-full bg-neutral-200 animate-pulse flex items-center justify-center text-[8px] text-neutral-400">QR CODE</div>
+                </div>
+                <a href="https://www.instagram.com/distinctcoworking/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-[10px] uppercase tracking-widest hover:text-primary transition-colors flex items-center justify-center gap-1">
+                  <Instagram className="w-3 h-3" /> Instagram
+                </a>
+              </div>
+              <div className="space-y-2 text-center">
+                <div className="aspect-square bg-white p-2 rounded-sm flex items-center justify-center">
+                  <div className="w-full h-full bg-neutral-200 animate-pulse flex items-center justify-center text-[8px] text-neutral-400">QR CODE</div>
+                </div>
+                <span className="text-neutral-400 text-[10px] uppercase tracking-widest flex items-center justify-center gap-1">
+                  <Facebook className="w-3 h-3" /> Facebook
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto mt-20 pt-8 border-t border-white/5 text-center text-neutral-600 text-[10px] uppercase tracking-widest">
+          © {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.
         </div>
       </footer>
     </div>

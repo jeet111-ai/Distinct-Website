@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertBookingSchema, type InsertBooking } from "@shared/schema";
@@ -11,8 +11,9 @@ import { Link } from "wouter";
 import { 
   Users, Monitor, Briefcase, Globe, 
   Video, Armchair, LayoutGrid, CheckCircle2,
-  ChevronLeft
+  ChevronLeft, ChevronRight
 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const offerings = [
   { 
@@ -62,6 +63,21 @@ export default function LocationDetail() {
     window.scrollTo(0, 0);
   }, []);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   const createBooking = useCreateBooking();
   const form = useForm<InsertBooking>({
     resolver: zodResolver(insertBookingSchema),
@@ -101,7 +117,7 @@ export default function LocationDetail() {
         </Reveal>
       </section>
 
-      {/* Our Spaces - Restructured with Real Photos */}
+      {/* Our Spaces */}
       <section className="py-24 px-6 bg-secondary/10">
         <div className="max-w-7xl mx-auto">
           <Reveal>
@@ -136,22 +152,48 @@ export default function LocationDetail() {
         </div>
       </section>
 
-      {/* Gallery - Full Width Flow */}
-      <section className="py-32 overflow-hidden bg-background">
-        <Reveal>
-          <div className="text-center mb-20 px-6">
-            <span className="text-primary text-xs tracking-[0.2em] uppercase">Visual Journey</span>
-            <h2 className="text-4xl font-serif mt-4">Gallery of Distinction</h2>
+      {/* Gallery - Full View Slider */}
+      <section className="relative h-screen overflow-hidden bg-black">
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
+          >
+            <img 
+              src={galleryImages[currentSlide]} 
+              className="w-full h-full object-cover opacity-80" 
+              alt="Gallery" 
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+        <div className="absolute inset-x-0 bottom-20 px-6 z-10">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <div className="text-white">
+              <span className="text-primary text-xs tracking-[0.2em] uppercase block mb-2">Premises</span>
+              <h2 className="text-4xl font-serif">Visual Journey</h2>
+            </div>
+            <div className="flex gap-4">
+              <button 
+                onClick={prevSlide}
+                className="w-12 h-12 flex items-center justify-center border border-white/20 text-white hover:bg-white hover:text-black transition-all"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button 
+                onClick={nextSlide}
+                className="w-12 h-12 flex items-center justify-center border border-white/20 text-white hover:bg-white hover:text-black transition-all"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
           </div>
-        </Reveal>
-        <div className="flex flex-col gap-6">
-          {galleryImages.map((src, i) => (
-            <Reveal key={i} delay={i * 0.1}>
-              <div className="w-full h-[60vh] md:h-[80vh] overflow-hidden">
-                <img src={src} alt={`Gallery ${i}`} className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
-              </div>
-            </Reveal>
-          ))}
         </div>
       </section>
 
