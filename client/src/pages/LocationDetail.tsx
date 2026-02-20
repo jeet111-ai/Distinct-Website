@@ -41,16 +41,6 @@ const offerings = [
   { title: "Business Address", icon: Briefcase, img: "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?auto=format&fit=crop&q=80&w=800", desc: "Prestigious mailing address in Malviya Nagar." },
 ];
 
-const amenities = [
-  { name: "Ergonomic workstations", desc: "Designed for comfort and productivity." },
-  { name: "High-speed internet", desc: "Enterprise-grade connectivity." },
-  { name: "Meeting Booths & Conference Rooms", desc: "Private spaces for calls and meetings." },
-  { name: "Brainstorming Area & Standing Desks", desc: "Dynamic spaces for creative work." },
-  { name: "Well equipped self-service pantry", desc: "Refreshments at your convenience." },
-  { name: "Comfortable breakout and collaboration areas", desc: "Spaces to unwind and network." },
-  { name: "Professional ambience that reflects your brand", desc: "An environment built for success." },
-];
-
 const galleryImages = [
   "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=1600",
   "https://images.unsplash.com/photo-1497215842964-2229243eefd4?auto=format&fit=crop&q=80&w=1600",
@@ -107,23 +97,88 @@ export default function LocationDetail() {
         <div className="text-xl tracking-[0.2em] font-serif font-bold">DISTINCT CO-WORKING</div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-40 pb-24 px-6 text-center">
-        <Reveal>
-          <h1 className="text-5xl md:text-7xl font-serif mt-4">Malviya Nagar</h1>
-          <p className="text-neutral-400 font-light mt-6 max-w-2xl mx-auto italic">
-            "A thoughtfully designed luxury workspace built for professionals, startups, and growing teams."
-          </p>
-        </Reveal>
+      {/* Hero with Enhanced Background */}
+      <section className="relative pt-40 pb-24 px-6 text-center overflow-hidden">
+        <div className="absolute inset-0 z-0 opacity-20 scale-110 hover:scale-100 transition-transform duration-[10s] ease-out">
+          <img 
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000"
+            alt="Background"
+            className="w-full h-full object-cover grayscale"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+        
+        <div className="relative z-10">
+          <Reveal>
+            <h1 className="text-5xl md:text-7xl font-serif mt-4">Malviya Nagar</h1>
+            <p className="text-neutral-400 font-light mt-6 max-w-2xl mx-auto italic">
+              "A thoughtfully designed luxury workspace built for professionals, startups, and growing teams."
+            </p>
+          </Reveal>
+        </div>
       </section>
 
-      {/* Our Spaces */}
+      {/* Gallery - Full View Slider with Upside Word */}
+      <section className="relative h-screen overflow-hidden bg-black">
+        {/* Restructured Title - Top Part */}
+        <div className="absolute top-32 left-0 right-0 z-20 px-6">
+          <div className="max-w-7xl mx-auto">
+            <Reveal>
+              <div className="inline-block">
+                <span className="text-primary text-xs tracking-[0.3em] uppercase block mb-2 opacity-80">Premises</span>
+                <h2 className="text-5xl md:text-7xl font-serif text-white/90">Visual Journey</h2>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute inset-0"
+          >
+            <img 
+              src={galleryImages[currentSlide]} 
+              className="w-full h-full object-cover opacity-70" 
+              alt="Gallery" 
+            />
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/60" />
+
+        {/* Controls - Bottom Part */}
+        <div className="absolute inset-x-0 bottom-20 px-6 z-10">
+          <div className="max-w-7xl mx-auto flex justify-end">
+            <div className="flex gap-4">
+              <button 
+                onClick={prevSlide}
+                className="w-14 h-14 flex items-center justify-center border border-white/20 text-white hover:bg-white hover:text-black backdrop-blur-md transition-all rounded-full"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button 
+                onClick={nextSlide}
+                className="w-14 h-14 flex items-center justify-center border border-white/20 text-white hover:bg-white hover:text-black backdrop-blur-md transition-all rounded-full"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Offerings (Renamed from Our Spaces) */}
       <section className="py-24 px-6 bg-secondary/10">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="text-center mb-20">
                <span className="text-primary text-xs tracking-[0.2em] uppercase">Tailored Environments</span>
-               <h2 className="text-4xl font-serif mt-4">Our Spaces</h2>
+               <h2 className="text-4xl font-serif mt-4">Offerings</h2>
             </div>
           </Reveal>
           
@@ -152,96 +207,26 @@ export default function LocationDetail() {
         </div>
       </section>
 
-      {/* Gallery - Full View Slider */}
-      <section className="relative h-screen overflow-hidden bg-black">
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={currentSlide}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0"
-          >
-            <img 
-              src={galleryImages[currentSlide]} 
-              className="w-full h-full object-cover opacity-80" 
-              alt="Gallery" 
-            />
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-
-        <div className="absolute inset-x-0 bottom-20 px-6 z-10">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="text-white">
-              <span className="text-primary text-xs tracking-[0.2em] uppercase block mb-2">Premises</span>
-              <h2 className="text-4xl font-serif">Visual Journey</h2>
-            </div>
-            <div className="flex gap-4">
-              <button 
-                onClick={prevSlide}
-                className="w-12 h-12 flex items-center justify-center border border-white/20 text-white hover:bg-white hover:text-black transition-all"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button 
-                onClick={nextSlide}
-                className="w-12 h-12 flex items-center justify-center border border-white/20 text-white hover:bg-white hover:text-black transition-all"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Amenities */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-20">
-              <span className="text-primary text-xs tracking-[0.2em] uppercase">Why Distinct?</span>
-              <h2 className="text-4xl font-serif mt-4">What Makes Us Different</h2>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {amenities.map((item, i) => (
-              <Reveal key={item.name} delay={i * 0.1}>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-primary" />
-                    <h4 className="font-serif text-xl">{item.name}</h4>
-                  </div>
-                  <p className="text-neutral-500 text-sm font-light pl-8">{item.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Booking Form */}
-      <section className="py-32 px-6 bg-secondary/10">
-        <div className="max-w-3xl mx-auto">
+      {/* Booking Form - Enhanced with Phone and Company */}
+      <section className="py-32 px-6 bg-background">
+        <div className="max-w-4xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-serif">Request a Private Tour</h2>
-              <p className="text-neutral-400 font-light mt-4">Visit Harisons House, No. 6 Raj Bhavan Rd, Malviya Nagar.</p>
+              <p className="text-neutral-400 font-light mt-4 italic">Visit Harisons House, No. 6 Raj Bhavan Rd, Malviya Nagar.</p>
             </div>
           </Reveal>
-          <div className="bg-background p-8 md:p-12 border border-white/5">
+          <div className="bg-neutral-900/50 p-8 md:p-12 border border-white/5 rounded-sm backdrop-blur-sm">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input placeholder="Full Name" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12" {...field} />
+                          <Input placeholder="Full Name" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12 focus-visible:border-primary transition-colors" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -253,7 +238,31 @@ export default function LocationDetail() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input placeholder="Email Address" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12" {...field} />
+                          <Input placeholder="Email Address" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12 focus-visible:border-primary transition-colors" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Mobile Number" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12 focus-visible:border-primary transition-colors" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Company Name" className="bg-transparent border-b border-white/10 rounded-none px-0 focus-visible:ring-0 h-12 focus-visible:border-primary transition-colors" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -261,7 +270,7 @@ export default function LocationDetail() {
                   />
                 </div>
                 <div className="pt-6 flex justify-center">
-                  <LuxuryButton type="submit" variant="solid" className="w-full md:w-auto min-w-[200px]" disabled={createBooking.isPending}>
+                  <LuxuryButton type="submit" variant="solid" className="w-full md:w-auto min-w-[240px] h-14 text-lg" disabled={createBooking.isPending}>
                     {createBooking.isPending ? "Submitting..." : "Send Request"}
                   </LuxuryButton>
                 </div>

@@ -8,7 +8,17 @@ import { LuxuryButton } from "@/components/ui/luxury-button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Link } from "wouter";
-import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Mail, Phone, Search } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Mail, Phone, Search, CheckCircle2 } from "lucide-react";
+
+const amenities = [
+  { name: "Ergonomic workstations", desc: "Designed for comfort and productivity." },
+  { name: "High-speed internet", desc: "Enterprise-grade connectivity." },
+  { name: "Meeting Booths & Conference Rooms", desc: "Private spaces for calls and meetings." },
+  { name: "Brainstorming Area & Standing Desks", desc: "Dynamic spaces for creative work." },
+  { name: "Well equipped self-service pantry", desc: "Refreshments at your convenience." },
+  { name: "Comfortable breakout and collaboration areas", desc: "Spaces to unwind and network." },
+  { name: "Professional ambience that reflects your brand", desc: "An environment built for success." },
+];
 
 export default function Home() {
   const createBooking = useCreateBooking();
@@ -74,18 +84,25 @@ export default function Home() {
               <h2 className="text-2xl font-serif text-white mb-6 text-center">Inquire Now</h2>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input placeholder="Full Name" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="First Name" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Last Name" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" />
+                      </FormControl>
+                    </FormItem>
+                  </div>
                   <FormField
                     control={form.control}
                     name="email"
@@ -105,6 +122,18 @@ export default function Home() {
                       <FormItem>
                         <FormControl>
                           <Input placeholder="Mobile Number" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder="Company Name" className="bg-transparent border-b border-white/20 rounded-none px-0 focus-visible:ring-0 focus-visible:border-primary transition-colors h-11 text-white placeholder:text-neutral-500" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -202,10 +231,35 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why Distinct - Moved from Location page */}
+      <section className="py-32 px-6 bg-background">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <span className="text-primary text-xs tracking-[0.2em] uppercase">Why Distinct?</span>
+              <h2 className="text-4xl font-serif mt-4">What Makes Us Different</h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {amenities.map((item, i) => (
+              <Reveal key={item.name} delay={i * 0.1}>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-primary" />
+                    <h4 className="font-serif text-xl">{item.name}</h4>
+                  </div>
+                  <p className="text-neutral-500 text-sm font-light pl-8">{item.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Footer / Detailed Contact Section */}
       <footer className="py-24 px-6 bg-black border-t border-white/10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-          <div className="space-y-8 text-left">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 text-left">
+          <div className="space-y-8">
             <div className="text-2xl font-serif font-bold tracking-widest text-primary">DISTINCT CO-WORKING</div>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
@@ -232,50 +286,61 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="space-y-8 text-left">
+          <div className="space-y-8">
             <h4 className="text-primary text-xs tracking-widest uppercase font-semibold">Find Your Way</h4>
-            <div className="aspect-[16/9] bg-neutral-900 border border-white/10 relative overflow-hidden group rounded-sm">
+            <div className="aspect-[16/9] bg-neutral-900 border border-white/10 relative overflow-hidden group rounded-sm shadow-2xl">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14663.856!2d77.4053687!3d23.2392794!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c43c91d370e13%3A0xf68319a51f4bc03e!2sDistinct+Co-working!5e0!3m2!1sen!2sin!4v1711234567890"
+                className="w-full h-full grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
               <a 
                 href={mapUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="absolute inset-0 flex items-center justify-center bg-neutral-800/40 hover:bg-neutral-800/20 transition-all"
+                className="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/10 transition-all"
               >
                 <div className="text-center group-hover:scale-105 transition-transform">
-                  <MapPin className="w-10 h-10 text-primary mx-auto mb-3" />
-                  <span className="text-[10px] uppercase tracking-widest text-white border border-primary/30 bg-black/40 px-4 py-2 backdrop-blur-sm">Get Directions</span>
+                  <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
+                  <span className="text-[9px] uppercase tracking-widest text-white border border-primary/30 bg-black/60 px-4 py-2 backdrop-blur-sm">Get Directions</span>
                 </div>
               </a>
             </div>
           </div>
 
-          <div className="space-y-8 text-left">
+          <div className="space-y-8">
             <h4 className="text-primary text-xs tracking-widest uppercase font-semibold">Digital Presence</h4>
-            <div className="grid grid-cols-3 gap-6">
-              <div className="space-y-3">
-                <div className="aspect-square bg-white p-1 rounded-sm flex items-center justify-center">
-                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-[8px] text-neutral-400 font-sans italic">QR CODE</div>
-                </div>
-                <a href="https://www.instagram.com/distinctcoworking/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 text-[9px] uppercase tracking-widest hover:text-primary transition-colors flex flex-col items-center gap-1">
-                  <Instagram className="w-3 h-3" /> Instagram
-                </a>
-              </div>
-              <div className="space-y-3">
-                <div className="aspect-square bg-white p-1 rounded-sm flex items-center justify-center">
-                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-[8px] text-neutral-400 font-sans italic">QR CODE</div>
-                </div>
-                <div className="text-neutral-400 text-[9px] uppercase tracking-widest flex flex-col items-center gap-1">
-                  <Facebook className="w-3 h-3" /> Facebook
-                </div>
-              </div>
-              <div className="space-y-3">
-                <div className="aspect-square bg-white p-1 rounded-sm flex items-center justify-center">
-                  <div className="w-full h-full bg-neutral-100 flex items-center justify-center text-[8px] text-neutral-400 font-sans italic">QR CODE</div>
-                </div>
-                <div className="text-neutral-400 text-[9px] uppercase tracking-widest flex flex-col items-center gap-1">
-                  <Search className="w-3 h-3" /> Google
-                </div>
-              </div>
+            <div className="space-y-4">
+              <a 
+                href="https://www.instagram.com/distinctcoworking/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-3 text-neutral-400 text-sm tracking-widest uppercase hover:text-primary transition-colors group"
+              >
+                <Instagram className="w-4 h-4 group-hover:scale-110 transition-transform" /> 
+                <span>Instagram</span>
+              </a>
+              <a 
+                href="https://www.facebook.com/profile.php?id=61587662000138" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-3 text-neutral-400 text-sm tracking-widest uppercase hover:text-primary transition-colors group"
+              >
+                <Facebook className="w-4 h-4 group-hover:scale-110 transition-transform" /> 
+                <span>Facebook</span>
+              </a>
+              <a 
+                href="https://www.google.com/search?q=Distinct+Co-working" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-3 text-neutral-400 text-sm tracking-widest uppercase hover:text-primary transition-colors group"
+              >
+                <Search className="w-4 h-4 group-hover:scale-110 transition-transform" /> 
+                <span>Google</span>
+              </a>
             </div>
           </div>
         </div>
