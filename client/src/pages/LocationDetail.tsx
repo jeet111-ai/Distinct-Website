@@ -97,9 +97,9 @@ export default function LocationDetail() {
         <div className="text-xl tracking-[0.2em] font-serif font-bold">DISTINCT CO-WORKING</div>
       </nav>
 
-      {/* Hero with Enhanced Background */}
+      {/* Hero with Enhanced Background - Slower animation */}
       <section className="relative pt-40 pb-24 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20 scale-110 hover:scale-100 transition-transform duration-[10s] ease-out">
+        <div className="absolute inset-0 z-0 opacity-20 scale-[1.05] hover:scale-100 transition-transform duration-[20s] ease-linear">
           <img 
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000"
             alt="Background"
@@ -135,10 +135,10 @@ export default function LocationDetail() {
         <AnimatePresence initial={false}>
           <motion.div
             key={currentSlide}
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            transition={{ duration: 2, ease: "linear" }}
             className="absolute inset-0"
           >
             <img 
