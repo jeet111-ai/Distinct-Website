@@ -82,10 +82,15 @@ export default {
           offline: "rgb(156 163 175)",
         },
       },
+      // fontFamily: {
+      //   sans: ["var(--font-sans)"],
+      //   serif: ["var(--font-serif)"],
+      //   mono: ["var(--font-mono)"],
+      // },
       fontFamily: {
-        sans: ["var(--font-sans)"],
-        serif: ["var(--font-serif)"],
-        mono: ["var(--font-mono)"],
+        sans: ["var(--font-body)"],
+        serif: ["var(--font-subtext)"],
+        headline: ["var(--font-headline)"],
       },
       keyframes: {
         "accordion-down": {

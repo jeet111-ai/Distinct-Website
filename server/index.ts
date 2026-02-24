@@ -89,15 +89,16 @@ app.use((req, res, next) => {
   // Other ports are firewalled. Default to 5000 if not specified.
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  // 1. Grab the port from the cloud provider, or default to 5000 locally
+const PORT = process.env.PORT || 5000;
+
+// 2. The Shape-Shifter: 
+// If deployed to production, use "0.0.0.0" (Public Cloud). 
+// If running on your Windows machine, use "127.0.0.1" (Localhost).
+const HOST = process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
+
+// 3. Start the server safely
+app.listen(Number(PORT), HOST, () => {
+  console.log(`🚀 Distinct API is officially running on http://${HOST}:${PORT}`);
+});
 })();

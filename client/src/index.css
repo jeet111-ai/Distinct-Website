@@ -1,57 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arapey:ital@0;1&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* H S L format */
-  --background: 0 0% 10%;      /* #1a1a1a - Charcoal */
-  --foreground: 60 11% 95%;    /* #f5f5f0 - Cream */
-  
-  --primary: 43 48% 56%;       /* #C5A059 - Muted Gold */
-  --primary-foreground: 0 0% 10%; 
-
-  --secondary: 0 0% 15%;       /* Slightly lighter charcoal for cards */
-  --secondary-foreground: 60 11% 95%;
-
-  --muted: 0 0% 20%;
-  --muted-foreground: 60 5% 70%;
-
-  --accent: 43 48% 56%;
-  --accent-foreground: 0 0% 10%;
-
-  --destructive: 0 62% 30%;
-  --destructive-foreground: 60 11% 95%;
-
-  --border: 43 48% 30%;        /* Darker gold for borders */
-  --input: 0 0% 20%;
-  --ring: 43 48% 56%;
-
-  --font-serif: 'Playfair Display', serif;
-  --font-sans: 'Inter', sans-serif;
-}
-
 @layer base {
+  :root {
+    /* 60% BASE: Warm White (#FAFAF8) */
+    --background: 60 14% 98%; 
+    --foreground: 216 71% 14%; /* Midnight Navy text for contrast */
+    
+    /* PRIMARY: Deep Sapphire (#143866) - For Buttons and main highlights */
+    --primary: 214 67% 24%; 
+    --primary-foreground: 60 14% 98%; 
+
+    /* SECONDARY/ACCENT: Soft Sand Beige (#EADFCB) - For cards and soft backgrounds */
+    --secondary: 38 45% 86%; 
+    --secondary-foreground: 216 71% 14%;
+
+    /* MUTED & BORDERS */
+    --muted: 210 20% 90%;
+    --muted-foreground: 216 71% 30%;
+    
+    --accent: 38 45% 86%;
+    --accent-foreground: 216 71% 14%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 60 14% 98%;
+
+    --border: 214 30% 85%; /* Soft blue-ish gray border */
+    --input: 214 30% 85%;
+    --ring: 214 67% 24%;
+
+    /* BRAND TYPOGRAPHY MAPPING */
+    --font-headline: 'Montserrat', sans-serif; /* We will force this to be extra-bold & uppercase to mimic Lovelo */
+    --font-subtext: 'Arapey', serif;
+    --font-body: 'Montserrat', sans-serif;
+  }
+
   * {
     @apply border-border;
   }
+  
   body {
-    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30 selection:text-foreground;
+    /* Normal paragraphs get standard Montserrat */
+    @apply bg-background text-foreground font-sans antialiased selection:bg-primary/30 selection:text-primary;
   }
+  
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif tracking-tight;
+    /* Instantly applies the "Lovelo" look to all headings globally */
+    font-family: var(--font-headline);
+    @apply font-black uppercase tracking-widest;
+  }
+
+  /* Special class for elegant Arapey sub-text */
+  .font-subtext {
+    font-family: var(--font-subtext) !important;
   }
 }
 
 @layer utilities {
   .text-gold {
-    color: hsl(var(--primary));
+    color: hsl(var(--secondary));
   }
   .border-gold {
-    border-color: hsl(var(--primary));
+    border-color: hsl(var(--secondary));
   }
   .bg-gold {
-    background-color: hsl(var(--primary));
+    background-color: hsl(var(--secondary));
   }
 }
