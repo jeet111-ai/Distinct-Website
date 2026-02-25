@@ -85,7 +85,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
     <nav className="fixed top-0 left-0 right-0 w-full z-50 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center bg-[#E6E8EB]/95 backdrop-blur-md border-b border-[#143866]/10 shadow-sm transition-all">
-        <Link href="/" className="flex items-center gap-3 md:gap-6 lg:gap-8 cursor-pointer group">
+        {/* FIX: Changed gap-3 to gap-5 for mobile breathing room! */}
+        <Link href="/" className="flex items-center gap-5 md:gap-6 lg:gap-8 cursor-pointer group">
           <img 
             src="/Distinct Final_Icon - Copy.png" 
             alt="Distinct Co-working Logo" 
@@ -114,8 +115,8 @@ export default function Home() {
           <div className="lg:max-w-2xl space-y-8 text-center lg:text-left">
             <Reveal>
               <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white tracking-tight leading-none">
-                {/* FIX 1: Added pr-4 and inline-block so the 'y' gets enough space! */}
-                Work <br/><span className="text-secondary italic pr-4 inline-block">Distinctly</span>
+                {/* FIX: Removed space after 'Work' and changed pr-4 to px-4 for perfect center balance! */}
+                Work<br/><span className="text-secondary italic px-4 inline-block">Distinctly</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
