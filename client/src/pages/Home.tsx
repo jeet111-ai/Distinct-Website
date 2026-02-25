@@ -84,15 +84,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
-     {/* Navigation - Perfectly matched to Location Page & Mobile Optimized */}
-      <nav className="fixed top-0 left-0 right-0 w-full z-50 px-4 md:px-6 py-3 md:py-4 flex justify-between items-center bg-[#E6E8EB]/95 backdrop-blur-md border-b border-[#143866]/10 shadow-sm transition-all">
-        <Link href="/" className="flex items-center gap-2 md:gap-5 cursor-pointer group mx-auto md:mx-0">
+    <nav className="fixed top-0 left-0 right-0 w-full z-50 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center bg-[#E6E8EB]/95 backdrop-blur-md border-b border-[#143866]/10 shadow-sm transition-all">
+        <Link href="/" className="flex items-center gap-3 md:gap-6 lg:gap-8 cursor-pointer group">
           <img 
-            src="/Distinct Final_Icon.png" 
+            src="/Distinct Final_Icon - Copy.png" 
             alt="Distinct Co-working Logo" 
-            className="h-16 md:h-28 lg:h-32 w-auto object-contain -my-2 md:-my-8 lg:-my-10 group-hover:scale-105 transition-transform"
+            className="h-8 md:h-9 lg:h-10 w-auto object-contain group-hover:scale-105 transition-transform"
           />
-          <span className="text-[13px] sm:text-base md:text-xl tracking-[0.1em] md:tracking-[0.2em] font-serif font-bold text-[#0A1E3C] whitespace-nowrap">
+          <span className="text-lg md:text-xl tracking-[0.2em] font-serif font-bold text-[#0A1E3C]">
             DISTINCT CO-WORKING
           </span>
         </Link>
