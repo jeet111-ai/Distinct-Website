@@ -112,15 +112,18 @@ export default function Home() {
 
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 mt-8 lg:mt-0">
           {/* Left Side: Headline */}
-          <div className="lg:max-w-2xl space-y-8 text-center lg:text-left">
+          {/* Added 'w-full flex flex-col items-center lg:items-start' to force the whole block to the physical center on mobile! */}
+          <div className="w-full lg:max-w-2xl space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left">
             <Reveal>
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-serif text-white tracking-tight leading-none">
-                {/* FIX: Removed space after 'Work' and changed pr-4 to px-4 for perfect center balance! */}
-                Work<br/><span className="text-secondary italic px-4 inline-block">Distinctly</span>
+              <h1 className="w-full text-center lg:text-left text-6xl md:text-8xl lg:text-9xl font-serif text-white tracking-tight leading-none">
+                Work<br/>
+                {/* px-4 for mobile balance, lg:px-0 lg:pr-4 returns desktop exactly to how it was */}
+                <span className="text-secondary italic px-4 lg:px-0 lg:pr-4 inline-block">Distinctly</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg md:text-xl text-white/80 font-light tracking-wide max-w-xl mx-auto lg:mx-0">
+              {/* Added w-full and explicit centering here too */}
+              <p className="w-full text-center lg:text-left text-lg md:text-xl text-white/80 font-light tracking-wide max-w-xl">
                 Distinct Co-working is a thoughtfully designed luxury workspace built for professionals, startups, and growing teams who want more than just a desk — they want the right environment to do their best work.
               </p>
             </Reveal>
@@ -321,22 +324,23 @@ export default function Home() {
 
 {/* Footer - Clean, Professional Enterprise Layout */}
       <footer className="py-20 lg:py-24 px-6 bg-[#0A1E3C] border-t border-white/10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 text-left">
+        {/* FIX 1: Changed to text-center for mobile, lg:text-left for desktop! */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 text-center lg:text-left">
           
           {/* Section 1 (Left 33%): The Brand Hub */}
           <div className="lg:col-span-4 flex flex-col justify-center h-full border-b lg:border-b-0 lg:border-r border-white/10 pb-12 lg:pb-0 lg:pr-8">
-            {/* 1. THE CLEAN LOGO - Reduced Size */}
-            <div className="mb-auto mt-auto">
+            <div className="mb-auto mt-auto flex justify-center lg:justify-start">
               <img 
                 src="/Distinct Final_Logo_White.png" 
                 alt="Distinct Co-working Logo" 
-                className="w-full max-w-[160px] md:max-w-[200px] lg:max-w-[240px] object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
+                className="w-[200px] md:w-[240px] h-auto object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
               />
             </div>
           </div>
 
           {/* Section 2 (Middle 33%): The Map & Digital Presence */}
-          <div className="lg:col-span-4 flex flex-col">
+          {/* FIX 2: Added items-center lg:items-start */}
+          <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
             <h4 className="text-secondary text-xs tracking-widest uppercase font-semibold mb-6">Find Your Way</h4>
             <div className="w-full h-48 md:h-56 bg-black/50 border border-white/10 relative overflow-hidden group rounded-sm shadow-2xl mb-10">
               <iframe 
@@ -360,10 +364,11 @@ export default function Home() {
               </a>
             </div>
 
-            {/* 2. Digital Presence - Moved exactly below the map! */}
-            <div className="w-full flex flex-col items-start">
+            {/* 2. Digital Presence - Centered perfectly! */}
+            <div className="w-full flex flex-col items-center lg:items-start">
               <h4 className="text-secondary text-xs tracking-widest uppercase font-semibold mb-5">Digital Presence</h4>
-              <div className="flex items-center gap-6">
+              {/* FIX 3: justify-center for mobile, lg:justify-start for desktop */}
+              <div className="flex items-center justify-center lg:justify-start gap-6">
                 <a href="https://www.instagram.com/distinctcoworking/" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
                   <Instagram className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" /> 
                 </a>
@@ -383,30 +388,37 @@ export default function Home() {
           </div>
 
           {/* Section 3 (Right 33%): Contact Us */}
-          <div className="lg:col-span-4 flex flex-col">
+          <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
             <h4 className="text-secondary text-xs tracking-widest uppercase font-semibold mb-6">Contact Us</h4>
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <MapPin className="w-5 h-5 text-secondary mt-1 shrink-0" />
-                <div className="text-white/70 font-light text-sm leading-relaxed">
+            <div className="space-y-6 flex flex-col items-center lg:items-start">
+              
+              {/* Address - Stacked on Mobile, Row on Desktop */}
+              <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4">
+                <MapPin className="w-5 h-5 text-secondary shrink-0" />
+                <div className="text-white/70 font-light text-sm leading-relaxed text-center lg:text-left">
                   Distinct Co-working, Lower Ground floor,<br />
                   Harisons House, No.6 Raj Bhavan Road,<br />
                   Malviya Nagar, Bhopal - 462003, MP
                 </div>
               </div>
-              <div className="flex items-center gap-4">
+              
+              {/* Email */}
+              <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4">
                 <Mail className="w-5 h-5 text-secondary shrink-0" />
-                <a href="mailto:info@distinctcoworking.com" className="text-white/70 font-light text-sm hover:text-white transition-colors">
+                <a href="mailto:info@distinctcoworking.com" className="text-white/70 font-light text-sm hover:text-white transition-colors text-center lg:text-left">
                   info@distinctcoworking.com
                 </a>
               </div>
-              <div className="flex items-start gap-4">
-                <Phone className="w-5 h-5 text-secondary mt-1 shrink-0" />
-                <div className="flex flex-col text-white/70 font-light text-sm">
+              
+              {/* Phone */}
+              <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4">
+                <Phone className="w-5 h-5 text-secondary shrink-0" />
+                <div className="flex flex-col items-center lg:items-start text-white/70 font-light text-sm text-center lg:text-left">
                   <a href="tel:+916366460968" className="hover:text-white transition-colors">+91 6366460968</a>
                   <a href="tel:+919243807744" className="hover:text-white transition-colors">+91 9243807744</a>
                 </div>
               </div>
+
             </div>
           </div>
 
