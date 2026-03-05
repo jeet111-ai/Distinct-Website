@@ -88,7 +88,7 @@ export default function Home() {
         {/* FIX: Changed gap-3 to gap-5 for mobile breathing room! */}
         <Link href="/" className="flex items-center gap-5 md:gap-6 lg:gap-8 cursor-pointer group">
           <img 
-            src="/Distinct Final_Icon - Copy.png" 
+            src="/logo/Distinct Final_Icon - Copy.png" 
             alt="Distinct Co-working Logo" 
             className="h-8 md:h-9 lg:h-10 w-auto object-contain group-hover:scale-105 transition-transform"
           />
@@ -262,7 +262,7 @@ export default function Home() {
               {/* Made taller on mobile (aspect-[4/3]) and normal on desktop */}
               <div className="group relative aspect-[4/3] md:aspect-[16/10] overflow-hidden border border-primary/10 bg-white shadow-xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1200"
+                  src="/images/reception-2.webp"
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
                   alt="Malviya Nagar"
                 />
@@ -331,7 +331,7 @@ export default function Home() {
           <div className="lg:col-span-4 flex flex-col justify-center h-full border-b lg:border-b-0 lg:border-r border-white/10 pb-12 lg:pb-0 lg:pr-8">
             <div className="mb-auto mt-auto flex justify-center lg:justify-start">
               <img 
-                src="/Distinct Final_Logo_White.png" 
+                src="/logo/Distinct Final_Logo_White.png" 
                 alt="Distinct Co-working Logo" 
                 className="w-[200px] md:w-[240px] h-auto object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
               />
@@ -380,7 +380,7 @@ export default function Home() {
                     <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
                   </svg>
                 </a>
-                <a href="https://www.linkedin.com/company/distinct-co-working/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
+                <a href="https://www.linkedin.com/company/distinct-co-working/" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
                   <Linkedin className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" /> 
                 </a>
               </div>

@@ -95,7 +95,11 @@ const PORT = process.env.PORT || 5000;
 // 2. The Shape-Shifter: 
 // If deployed to production, use "0.0.0.0" (Public Cloud). 
 // If running on your Windows machine, use "127.0.0.1" (Localhost).
-const HOST = process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
+
+// const HOST = process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
+
+// 0.0.0.0 is completely safe for Vercel, AND it allows local Wi-Fi mobile testing!
+const HOST = "0.0.0.0";
 
 // 3. Start the server safely
 app.listen(Number(PORT), HOST, () => {
