@@ -83,6 +83,7 @@ export default function Home() {
   const mapUrl = "https://www.google.com/maps/dir//Lower+Ground+Floor,+Distinct+Co-working,+Harisons+House,+6,+Rajbhavan+Rd,+Malviya+Nagar,+Bhopal,+Madhya+Pradesh+462003/@23.2392843,77.4027938,17z/data=!4m16!1m7!3m6!1s0x397c43c91d370e13:0xf68319a51f4bc03e!2sDistinct+Co-working!8m2!3d23.2392794!4d77.4053687!16s%2Fg%2F11yywgqy1m!4m7!1m0!1m5!1m1!1s0x397c43c91d370e13:0xf68319a51f4bc03e!2m2!1d77.4053687!2d23.2392794?entry=ttu&g_ep=EgoyMDI2MDIxNi4wIKXMDSoASAFQAw%3D%3D";
 
   return (
+    
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
     <nav className="fixed top-0 left-0 right-0 w-full z-50 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center bg-[#E6E8EB]/95 backdrop-blur-md border-b border-[#143866]/10 shadow-sm transition-all">
         {/* FIX: Changed gap-3 to gap-5 for mobile breathing room! */}

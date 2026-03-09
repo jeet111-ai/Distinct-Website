@@ -138,13 +138,15 @@ const premiumAmenities = [
 const galleryImages = [
   "/images/reception-2.webp",
   "/images/reception-1.webp",
-  "/images/open-area1.webp",
-  "/images/meeting-area1.webp",
-  "/images/meeting-area2.webp",  
-  "/images/open-area2.webp",
+  "/images/open-area1.webp",//changed
+  "/images/open-area2.webp",//changed
   "/images/lobby1.webp",
-  "/images/open-area3.webp",
-  "/images/open-area4.webp",
+  "/images/open-area4.webp",//changed
+  "/images/meeting-area1.webp",//changed
+  "/images/meeting-area2.webp",  //changed 
+  "/images/pantry-1.webp",
+  "/images/brainstorming2.webp",
+  "/images/breakout2.webp",
   "/images/hotdesk.webp"
 ];
 

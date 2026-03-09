@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Home from "@/pages/Home";
 import LocationDetail from "@/pages/LocationDetail";
 import NotFound from "@/pages/not-found";
+import { ChatWidget } from "@/components/chat/ChatWidget";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <ChatWidget />
       </TooltipProvider>
     </QueryClientProvider>
   );
