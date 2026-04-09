@@ -429,6 +429,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/5 flex flex-col items-center justify-center gap-2 text-white/40 text-[10px] uppercase tracking-widest text-center">
           <span>© {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.</span>
           <span>Bhopal, Madhya Pradesh</span>
+          <span>A Venture by Distinctspace Ventures Llp</span>
         </div>
       </footer>
     </div>

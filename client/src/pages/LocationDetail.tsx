@@ -28,7 +28,12 @@ const formSchema = z.object({
 });
 type FormData = z.infer<typeof formSchema>;
 
-/* ---------------- DATA ARRAYS ---------------- */
+/* ---------------- DATA ARRAYS & WHATSAPP LOGIC ---------------- */
+
+// Helper function to create pre-filled WhatsApp links
+const getWaLink = (message: string) => {
+  return `https://wa.me/916366460968?text=${encodeURIComponent(message)}`;
+};
 
 const offerings = [
   { 
@@ -39,7 +44,10 @@ const offerings = [
       "/images/4-seater-cabin1.webp",
       "/images/4-seater-zone.webp"
     ],
-    desc: "A thoughtfully designed 4-seater private cabin ideal for small teams that need focus, comfort, and a professional setting." 
+    desc: "A thoughtfully designed 4-seater private cabin ideal for small teams that need focus, comfort, and a professional setting.",
+    buttons: [
+      { text: "Contact us", href: getWaLink("Hi, I am interested in the 4-Seater Private Cabin plan at Distinct Co-working.") }
+    ]
   },
   { 
     title: "6-Seater Private Cabin", 
@@ -49,47 +57,71 @@ const offerings = [
       "/images/6-seater-cabin2.webp",
       "/images/reception-3.webp"
     ],
-    desc: "An exclusive, fully serviced 6-seater executive cabin crafted for teams that value privacy, prestige, and performance." 
+    desc: "An exclusive, fully serviced 6-seater executive cabin crafted for teams that value privacy, prestige, and performance.",
+    buttons: [
+      { text: "Contact us", href: getWaLink("Hi, I am interested in the 6-Seater Private Cabin plan at Distinct Co-working.") }
+    ]
   },
   { 
-    title: "Hot Desk / Open Desk", 
+    title: "Day Pass", 
     icon: Armchair, 
     images: [
       "/images/background1.webp",
-      "/images/open-area3.webp",
-      "/images/hotdesk.webp"
+      "/images/hotdesk.webp",
+      "/images/open-area4.webp"
     ],
-    desc: "Flexible, vibrant workspaces in our shared lounge. Ideal for entrepreneurs and startups." 
+    desc: "Flexible, vibrant workspaces in our shared lounge. Perfect for individuals needing a professional setup for a single day.",
+    buttons: [
+      { text: "Basic ₹349 / day"},
+      { text: "Premium ₹500 / day"}
+    ]
   },
   { 
-    title: "4-Seater Conference Room", 
+    title: "Premium Monthly Desk", 
+    icon: Briefcase, 
+    images: [
+      "/images/open-area2.webp",
+      "/images/open-area1.webp",
+      "/images/meeting-area1.webp"
+    ],
+    desc: "Ideal for entrepreneurs and startups needing a dedicated, flexible desk for long-term growth.",
+    buttons: [
+      { text: "Dedicated Desk ₹7999 / month" }
+    ]
+  },
+  { 
+    title: "Conference Rooms", 
     icon: Video, 
-    images: ["/images/4-seater-conference1.webp"],
-    desc: "Intimate rooms for focused collaborations." 
-  },
-  { 
-    title: "6-Seater Conference Room", 
-    icon: Monitor, 
-    images: ["/images/6-seater-conference1.webp","/images/6-seater-conference2.webp"],
-    desc: "Equipped for seamless hybrid presentations." 
-  },
-  { 
-    title: "10-Seater Conference Room", 
-    icon: LayoutGrid, 
-    images: ["/images/10-seater-conference1.webp","/images/10-seater-conference2.webp"],
-    desc: "Boardroom excellence for major decisions." 
+    images: [
+      "/images/10-seater-conference1.webp",
+      "/images/6-seater-conference1.webp",
+      "/images/4-seater-conference1.webp"
+    ],
+    desc: "State-of-the-art meeting spaces equipped for seamless hybrid presentations, focused collaborations, and boardroom excellence.",
+    buttons: [
+      { text: "4-Seater ₹500 / hr"},
+      { text: "6-Seater ₹750 / hr"},
+      { text: "10-Seater ₹1200 / hr"}
+    ]
   },
   { 
     title: "Virtual Office", 
     icon: Globe, 
     images: ["/images/virtual-office.webp"],
-    desc: "Premium business identity without physical boundaries."
+    desc: "Premium business identity without physical boundaries. Choose our standard package without mail handling or upgrade to include inbound mail handling.",
+    buttons: [
+      { text: "Standard ₹1500 / month", href: getWaLink("Hi, I am interested in the Standard Virtual Office plan without mail handling at Distinct Co-working.") },
+      { text: "With Mail ₹2500 / month", href: getWaLink("Hi, I am interested in the Virtual Office plan with mail handling at Distinct Co-working.") }
+    ]
   },
   { 
     title: "Business Address", 
     icon: Briefcase, 
     images: ["/images/frontview.webp"],
-    desc: "Prestigious mailing address in Malviya Nagar." 
+    desc: "Prestigious mailing address in Malviya Nagar.",
+    buttons: [
+      { text: "Contact us", href: getWaLink("Hi, I am interested in the Business Address plan at Distinct Co-working.") }
+    ]
   },
 ];
 
@@ -138,12 +170,12 @@ const premiumAmenities = [
 const galleryImages = [
   "/images/reception-2.webp",
   "/images/reception-1.webp",
-  "/images/open-area1.webp",//changed
-  "/images/open-area2.webp",//changed
+  "/images/open-area1.webp",
+  "/images/open-area2.webp",
   "/images/lobby1.webp",
-  "/images/open-area4.webp",//changed
-  "/images/meeting-area1.webp",//changed
-  "/images/meeting-area2.webp",  //changed 
+  "/images/open-area4.webp",
+  "/images/meeting-area1.webp",
+  "/images/meeting-area2.webp",
   "/images/pantry-1.webp",
   "/images/brainstorming2.webp",
   "/images/breakout2.webp",
@@ -262,21 +294,45 @@ const InteractiveCarouselCard = ({ item, variant = "dark" }: { item: any, varian
 
       {/* TEXT SECTION */}
       <div className={`p-6 md:p-8 space-y-4 flex-grow flex flex-col ${isLight ? "bg-white" : "bg-[#0A1E3C]"}`}>
-        <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 flex items-center justify-center rounded-full transition-colors ${
+        <div className="flex items-start gap-3">
+          <div className={`w-12 h-12 shrink-0 flex items-center justify-center rounded-full transition-colors ${
             isLight ? "bg-secondary/30 text-primary group-hover:bg-primary/10" 
                     : "bg-white/10 text-white group-hover:bg-white group-hover:text-[#0A1E3C]"
           }`}>
             <item.icon className="w-5 h-5" />
           </div>
-          <h3 className={`text-xl md:text-2xl font-serif ${isLight ? "text-foreground" : "text-white tracking-wide"}`}>
-            {item.title}
-          </h3>
+          <div className="flex flex-col pt-2">
+            <h3 className={`text-xl md:text-2xl font-serif ${isLight ? "text-foreground" : "text-white tracking-wide"}`}>
+              {item.title}
+            </h3>
+          </div>
         </div>
+        
         {item.desc && (
           <p className={`text-sm md:text-base leading-relaxed ${isLight ? "text-foreground/70 font-light" : "text-gray-400"}`}>
             {item.desc}
           </p>
+        )}
+
+        {/* PRICE BUTTONS SECTION */}
+        {item.buttons && item.buttons.length > 0 && (
+          <div className="pt-4 mt-auto flex flex-wrap gap-2">
+            {item.buttons.map((btn: any, idx: number) => (
+              <a 
+                key={idx}
+                href={btn.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center justify-center px-4 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 border ${
+                  isLight 
+                    ? "bg-primary/5 text-primary border-primary/20 hover:bg-primary hover:text-white hover:border-primary shadow-sm" 
+                    : "bg-white/5 text-white border-white/10 hover:bg-white hover:text-[#0A1E3C] hover:border-white shadow-sm"
+                }`}
+              >
+                {btn.text}
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -470,12 +526,22 @@ export default function LocationDetail() {
             </div>
           </Reveal>
           
-          {/* Note: Reveal wraps the entire grid now to fix equal-height bugs */}
           <Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {offerings.map((item) => (
-                <InteractiveCarouselCard key={item.title} item={item} variant="light" />
-              ))}
+              {offerings.map((item, index) => {
+                // Determine if this is the very last item AND the total number of items is odd
+                const isLastAndOdd = index === offerings.length - 1 && offerings.length % 2 !== 0;
+                
+                return (
+                  <div 
+                    key={item.title} 
+                    // If it is the odd one out, make it span 2 columns and center its width
+                    className={isLastAndOdd ? "md:col-span-2 md:w-[calc(50%-1.5rem)] md:mx-auto w-full" : "w-full"}
+                  >
+                    <InteractiveCarouselCard item={item} variant="light" />
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </div>
@@ -498,7 +564,6 @@ export default function LocationDetail() {
             </div>
           </Reveal>
 
-          {/* Note: Reveal wraps the entire grid now to fix equal-height bugs */}
           <Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
               {premiumAmenities.map((amenity, index) => (
@@ -623,8 +688,9 @@ export default function LocationDetail() {
           </div>
         </div>
         
-        <div className="mt-12 pt-8 border-t border-white/5 w-full max-w-2xl text-white/40 text-[9px] md:text-[10px] uppercase tracking-widest">
-          © {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.
+        <div className="mt-12 pt-8 border-t border-white/5 w-full max-w-2xl text-white/40 text-[9px] md:text-[10px] uppercase tracking-widest space-y-1">
+          <p>© {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.</p>
+          <p>A Venture by Distinctspace Ventures Llp</p>
         </div>
       </footer>
     </div>
