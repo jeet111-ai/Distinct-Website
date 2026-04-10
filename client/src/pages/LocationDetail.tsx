@@ -688,9 +688,27 @@ export default function LocationDetail() {
           </div>
         </div>
         
-        <div className="mt-12 pt-8 border-t border-white/5 w-full max-w-2xl text-white/40 text-[9px] md:text-[10px] uppercase tracking-widest space-y-1">
-          <p>© {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.</p>
-          <p>A Venture by Distinctspace Ventures Llp</p>
+        {/* Unified Legal Footer */}
+        <div className="mt-12 pt-8 pb-28 md:pb-8 border-t border-white/5 w-full max-w-5xl mx-auto text-white/40 text-[9px] md:text-[10px] uppercase tracking-widest flex flex-col items-center gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+            <p>© {new Date().getFullYear()} Distinct Co-working Spaces. All rights reserved.</p>
+            <span className="hidden md:inline-block">|</span>
+            <p>A Venture by Distinctspace Ventures Llp</p>
+          </div>
+          
+          <div className="flex flex-wrap justify-center items-center gap-3 md:gap-6 mt-2">
+            <Link href="/terms" className="text-white/70 hover:text-white transition-colors underline underline-offset-4 cursor-pointer">
+              Terms & Conditions
+            </Link>
+            <span className="text-white/20">•</span>
+            <Link href="/privacy" className="text-white/70 hover:text-white transition-colors underline underline-offset-4 cursor-pointer">
+              Privacy Policy
+            </Link>
+            <span className="text-white/20">•</span>
+            <Link href="/refund-policy" className="text-white/70 hover:text-white transition-colors underline underline-offset-4 cursor-pointer">
+              Cancellation & Refund
+            </Link>
+          </div>
         </div>
       </footer>
     </div>
