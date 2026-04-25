@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCreateBooking } from "@/hooks/use-bookings";
+import { useToast } from "@/hooks/use-toast";
 import { Reveal } from "@/components/ui/reveal";
 import { LuxuryButton } from "@/components/ui/luxury-button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Link } from "wouter";
 //import { MapPin, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Mail, Phone, Search, CheckCircle2 } from "lucide-react";
 import { MapPin, ArrowRight, Shield, Users, Monitor, Instagram, Facebook, Mail, Phone, Search, CheckCircle2, Linkedin } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // --- Custom Frontend Form Schema for Split Names ---
 const formSchema = z.object({
@@ -18,6 +19,8 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   phone: z.string().regex(/^[0-9]{10}$/, "Please enter a valid 10-digit number"), // Strict 10-digit check
   company: z.string().min(1, "Company name is required"), // Now mandatory!
+  numberOfSeats: z.string().min(1, "Number of seats is required"),
+  timeline: z.string().min(1, "Timeline is required"),
 });
 type FormData = z.infer<typeof formSchema>;
 
@@ -32,8 +35,8 @@ const amenities = [
 ];
 
 export default function Home() {
-  const createBooking = useCreateBooking();
-  
+  const { toast } = useToast();
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,56 +45,76 @@ export default function Home() {
       email: "",
       phone: "",
       company: "",
+      numberOfSeats: "",
+      timeline: "",
     },
   });
 
   const onSubmit = async (data: FormData) => {
-    // 1. Send to Local Database safely
-    createBooking.mutate({
-      name: `${data.firstName} ${data.lastName}`,
-      email: data.email,
-      phone: data.phone,
-      company: data.company || "",
-      location: "General Inquiry",
-      message: "" 
-    });
-
     try {
-      // 2. Send separated data directly to Google Apps Script
-      await fetch("https://script.google.com/macros/s/AKfycbxbBJ3c_vImRSgulIpKNbCVrqo2skuQiRUPPErxgn-y3YVLDnWUUFkNmltF0fik9TST/exec", {
+      // Send separated data directly to Google Apps Script
+      const response = await fetch("https://script.google.com/macros/s/AKfycbxbBJ3c_vImRSgulIpKNbCVrqo2skuQiRUPPErxgn-y3YVLDnWUUFkNmltF0fik9TST/exec", {
         method: "POST",
         mode: "no-cors",
-        headers: { "Content-Type":"text/plain;charset=utf-8" },
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({
           firstName: data.firstName,
           lastName: data.lastName,
           email: data.email,
           phone: data.phone,
-          company: data.company
+          company: data.company,
+          numberOfSeats: data.numberOfSeats,
+          timeline: data.timeline,
         }),
       });
 
-      //alert("Inquiry received! Our concierge will contact you shortly.");
+      try {
+        const textResponse = await response.text();
+        try {
+          JSON.parse(textResponse);
+        } catch (e) {
+          // Fallback to raw text
+        }
+      } catch (e) {
+        // Ignore opaque response read errors
+      }
+
+      if (response.type !== "opaque" && !response.ok) {
+        throw new Error("Submission failed to Google Script");
+      }
+
       form.reset();
+
+      toast({
+        title: "Inquiry Received",
+        description: "Our concierge will contact you shortly to schedule your tour.",
+        className: "bg-secondary border-primary/20 text-foreground",
+      });
 
     } catch (error) {
       console.error("Google Script failed:", error);
-      //alert("Something went wrong with the form. Please try calling us directly.");
+      toast({
+        title: "Submission Failed",
+        description: "We are currently facing an issue. Please try calling us directly.",
+        variant: "destructive",
+      });
     }
   };
 
   const mapUrl = "https://www.google.com/maps/dir//Lower+Ground+Floor,+Distinct+Co-working,+Harisons+House,+6,+Rajbhavan+Rd,+Malviya+Nagar,+Bhopal,+Madhya+Pradesh+462003/@23.2392843,77.4027938,17z/data=!4m16!1m7!3m6!1s0x397c43c91d370e13:0xf68319a51f4bc03e!2sDistinct+Co-working!8m2!3d23.2392794!4d77.4053687!16s%2Fg%2F11yywgqy1m!4m7!1m0!1m5!1m1!1s0x397c43c91d370e13:0xf68319a51f4bc03e!2m2!1d77.4053687!2d23.2392794?entry=ttu&g_ep=EgoyMDI2MDIxNi4wIKXMDSoASAFQAw%3D%3D";
 
   return (
-    
+
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
-    <nav className="fixed top-0 left-0 right-0 w-full z-50 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center bg-[#E6E8EB]/95 backdrop-blur-md border-b border-[#143866]/10 shadow-sm transition-all">
+      <nav className="fixed top-0 left-0 right-0 w-full z-50 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center bg-[#E6E8EB]/95 backdrop-blur-md border-b border-[#143866]/10 shadow-sm transition-all">
         {/* FIX: Changed gap-3 to gap-5 for mobile breathing room! */}
         <Link href="/" className="flex items-center gap-5 md:gap-6 lg:gap-8 cursor-pointer group">
-          <img 
-            src="/logo/Distinct Final_Icon - Copy.png" 
-            alt="Distinct Co-working Logo" 
+          <img
+            src="/logo/Distinct Final_Icon - Copy.png"
+            alt="Distinct Co-working Logo"
             className="h-8 md:h-9 lg:h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+            width="40"
+            height="40"
           />
           <span className="text-lg md:text-xl tracking-[0.2em] font-serif font-bold text-[#0A1E3C]">
             DISTINCT CO-WORKING
@@ -104,8 +127,8 @@ export default function Home() {
       <section className="relative min-h-screen lg:h-screen flex items-center px-6 md:px-12 overflow-hidden pt-32 pb-20 lg:pt-0 lg:pb-0">
         <div className="absolute inset-0 z-0 bg-[#0A1E3C]">
           <div className="absolute inset-0 bg-[#0A1E3C]/60 z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000"
+          <img
+            src="/images/hero-bg.webp"
             alt="Luxury Office Space"
             className="w-full h-full object-cover opacity-30 mix-blend-luminosity"
           />
@@ -117,7 +140,7 @@ export default function Home() {
           <div className="w-full lg:max-w-2xl space-y-8 flex flex-col items-center lg:items-start text-center lg:text-left">
             <Reveal>
               <h1 className="w-full text-center lg:text-left text-6xl md:text-8xl lg:text-9xl font-serif text-white tracking-tight leading-none">
-                Work<br/>
+                Work<br />
                 {/* px-4 for mobile balance, lg:px-0 lg:pr-4 returns desktop exactly to how it was */}
                 <span className="text-secondary italic px-4 lg:px-0 lg:pr-4 inline-block">Distinctly</span>
               </h1>
@@ -136,7 +159,7 @@ export default function Home() {
               <h2 className="text-2xl font-serif text-white mb-6 text-center">Enquire Now</h2>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
@@ -163,7 +186,7 @@ export default function Home() {
                       )}
                     />
                   </div>
-                  
+
                   <FormField
                     control={form.control}
                     name="email"
@@ -176,7 +199,7 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="phone"
@@ -189,7 +212,7 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
-                  
+
                   <FormField
                     control={form.control}
                     name="company"
@@ -202,14 +225,66 @@ export default function Home() {
                       </FormItem>
                     )}
                   />
-                  
-                  <LuxuryButton 
-                    type="submit" 
-                    variant="solid" 
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="numberOfSeats"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="bg-transparent border-b border-primary/20 rounded-none px-0 focus-visible:ring-0 h-12 focus-visible:border-primary text-gray-400 transition-colors border-t-0 border-l-0 border-r-0 shadow-none data-[placeholder]:text-gray-400">
+                                <SelectValue placeholder="No. of Seats" />
+                              </SelectTrigger>
+                            </FormControl>
+                            {/* FIX ADDED HERE */}
+                            <SelectContent className="z-[100] bg-[#0A1E3C] border border-white/20 text-white shadow-xl">
+                              {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+                                <SelectItem key={num} value={num.toString()}>
+                                  {num} {num === 1 ? 'Seat' : 'Seats'}
+                                </SelectItem>
+                              ))}
+                              <SelectItem value="20+">20+ Seats</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="timeline"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="bg-transparent border-b border-primary/20 rounded-none px-0 focus-visible:ring-0 h-12 focus-visible:border-primary text-gray-400 transition-colors border-t-0 border-l-0 border-r-0 shadow-none data-[placeholder]:text-gray-400">
+                                <SelectValue placeholder="When to Join" />
+                              </SelectTrigger>
+                            </FormControl>
+                            {/* FIX ADDED HERE */}
+                            <SelectContent className="z-[100] bg-[#0A1E3C] border border-white/20 text-white shadow-xl">
+                              <SelectItem value="Immediate">Immediate</SelectItem>
+                              <SelectItem value="Within 15 Days">Within 15 Days</SelectItem>
+                              <SelectItem value="Next Month">Next Month</SelectItem>
+                              <SelectItem value="Just Exploring">Just Exploring</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <LuxuryButton
+                    type="submit"
+                    variant="solid"
                     className="w-full mt-4 h-12 bg-primary text-white hover:bg-primary/90"
-                    disabled={createBooking.isPending}
+                    disabled={form.formState.isSubmitting}
                   >
-                    {createBooking.isPending ? "Processing..." : "Submit"}
+                    {form.formState.isSubmitting ? "Processing..." : "Submit"}
                   </LuxuryButton>
                 </form>
               </Form>
@@ -262,13 +337,14 @@ export default function Home() {
             <Reveal delay={0.1}>
               {/* Made taller on mobile (aspect-[4/3]) and normal on desktop */}
               <div className="group relative aspect-[4/3] md:aspect-[16/10] overflow-hidden border border-primary/10 bg-white shadow-xl">
-                <img 
+                <img
                   src="/images/reception-2.webp"
                   className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700"
-                  alt="Malviya Nagar"
+                  alt="Malviya Nagar Location"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A1E3C]/90 to-transparent" />
-                
+
                 {/* Reduced padding and text size on mobile screens */}
                 <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10">
                   <h3 className="text-3xl md:text-4xl font-serif mb-4 text-white">Malviya Nagar</h3>
@@ -283,10 +359,11 @@ export default function Home() {
 
             <Reveal delay={0.2}>
               <div className="relative aspect-[16/10] overflow-hidden border border-primary/10 bg-[#0A1E3C] opacity-90 cursor-not-allowed shadow-xl">
-                <img 
+                <img
                   src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200"
                   className="w-full h-full object-cover opacity-30 mix-blend-luminosity"
-                  alt="MP Nagar"
+                  alt="MP Nagar Future Location"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <h3 className="text-4xl font-serif mb-2 text-white">MP Nagar</h3>
@@ -323,17 +400,17 @@ export default function Home() {
         </div>
       </section>
 
-{/* Footer - Clean, Professional Enterprise Layout */}
+      {/* Footer - Clean, Professional Enterprise Layout */}
       <footer className="py-20 lg:py-24 px-6 bg-[#0A1E3C] border-t border-white/10">
         {/* FIX 1: Changed to text-center for mobile, lg:text-left for desktop! */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 text-center lg:text-left">
-          
+
           {/* Section 1 (Left 33%): The Brand Hub */}
           <div className="lg:col-span-4 flex flex-col justify-center h-full border-b lg:border-b-0 lg:border-r border-white/10 pb-12 lg:pb-0 lg:pr-8">
             <div className="mb-auto mt-auto flex justify-center lg:justify-start">
-              <img 
-                src="/logo/Distinct Final_Logo_White.png" 
-                alt="Distinct Co-working Logo" 
+              <img
+                src="/logo/Distinct Final_Logo_White.png"
+                alt="Distinct Co-working Logo"
                 className="w-[200px] md:w-[240px] h-auto object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105"
               />
             </div>
@@ -344,7 +421,7 @@ export default function Home() {
           <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
             <h4 className="text-secondary text-xs tracking-widest uppercase font-semibold mb-6">Find Your Way</h4>
             <div className="w-full h-48 md:h-56 bg-black/50 border border-white/10 relative overflow-hidden group rounded-sm shadow-2xl mb-10">
-              <iframe 
+              <iframe
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14663.856!2d77.4053687!3d23.2392794!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397c43c91d370e13%3A0xf68319a51f4bc03e!2sDistinct+Co-working!5e0!3m2!1sen!2sin!4v1711234567890"
                 className="absolute inset-0 w-full h-full grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
                 style={{ border: 0 }}
@@ -352,9 +429,9 @@ export default function Home() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
-              <a 
+              <a
                 href={mapUrl}
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
                 className="absolute inset-0 flex items-center justify-center bg-[#0A1E3C]/40 group-hover:bg-[#0A1E3C]/10 transition-all duration-500"
               >
@@ -371,18 +448,18 @@ export default function Home() {
               {/* FIX 3: justify-center for mobile, lg:justify-start for desktop */}
               <div className="flex items-center justify-center lg:justify-start gap-6">
                 <a href="https://www.instagram.com/distinctcoworking/" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
-                  <Instagram className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" /> 
+                  <Instagram className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" />
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=61587662000138" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
-                  <Facebook className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" /> 
+                  <Facebook className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" />
                 </a>
                 <a href="https://www.google.com/search?q=Distinct+Co-working" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all">
-                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
                   </svg>
                 </a>
                 <a href="https://www.linkedin.com/company/distinct-co-working/" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors group">
-                  <Linkedin className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" /> 
+                  <Linkedin className="w-5 h-5 group-hover:scale-110 group-hover:-translate-y-1 transition-all" />
                 </a>
               </div>
             </div>
@@ -392,7 +469,7 @@ export default function Home() {
           <div className="lg:col-span-4 flex flex-col items-center lg:items-start">
             <h4 className="text-secondary text-xs tracking-widest uppercase font-semibold mb-6">Contact Us</h4>
             <div className="space-y-6 flex flex-col items-center lg:items-start">
-              
+
               {/* Address - Stacked on Mobile, Row on Desktop */}
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4">
                 <MapPin className="w-5 h-5 text-secondary shrink-0" />
@@ -402,7 +479,7 @@ export default function Home() {
                   Malviya Nagar, Bhopal - 462003, MP
                 </div>
               </div>
-              
+
               {/* Email */}
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4">
                 <Mail className="w-5 h-5 text-secondary shrink-0" />
@@ -410,7 +487,7 @@ export default function Home() {
                   info@distinctcoworking.com
                 </a>
               </div>
-              
+
               {/* Phone */}
               <div className="flex flex-col lg:flex-row items-center lg:items-start gap-2 lg:gap-4">
                 <Phone className="w-5 h-5 text-secondary shrink-0" />
@@ -424,7 +501,7 @@ export default function Home() {
           </div>
 
         </div>
-        
+
         {/* Unified Legal Footer */}
         <div className="mt-12 pt-8 pb-28 md:pb-8 border-t border-white/5 w-full max-w-5xl mx-auto text-white/40 text-[9px] md:text-[10px] uppercase tracking-widest flex flex-col items-center gap-4">
           <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
@@ -432,7 +509,7 @@ export default function Home() {
             <span className="hidden md:inline-block">|</span>
             <p>A Venture by Distinctspace Ventures Llp</p>
           </div>
-          
+
           <div className="flex flex-wrap justify-center items-center gap-3 md:gap-6 mt-2">
             <Link href="/terms" className="text-white/70 hover:text-white transition-colors underline underline-offset-4 cursor-pointer">
               Terms & Conditions
