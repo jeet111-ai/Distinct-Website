@@ -75,8 +75,8 @@ const offerings = [
     ],
     desc: "Flexible, vibrant workspaces in our shared lounge. Perfect for individuals needing a professional setup for a single day.",
     buttons: [
-      { text: "Basic ₹349 / day" },
-      { text: "Premium ₹500 / day" }
+      { text: "Basic ₹500 / day" },
+      { text: "Premium ₹650 / day" }
     ]
   },
   {
@@ -102,9 +102,9 @@ const offerings = [
     ],
     desc: "State-of-the-art meeting spaces equipped for seamless hybrid presentations, focused collaborations, and boardroom excellence.",
     buttons: [
-      { text: "4-Seater ₹500 / hr" },
-      { text: "6-Seater ₹750 / hr" },
-      { text: "10-Seater ₹1200 / hr" }
+      { text: "4-Seater ₹750 / hr" },
+      { text: "6-Seater ₹1000 / hr" },
+      { text: "10-Seater ₹1500 / hr" }
     ]
   },
   {
@@ -541,22 +541,30 @@ export default function LocationDetail() {
             </div>
           </Reveal>
 
+          {/* Moved the footnote INSIDE this main Reveal wrapper */}
           <Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {offerings.map((item, index) => {
-                // Determine if this is the very last item AND the total number of items is odd
-                const isLastAndOdd = index === offerings.length - 1 && offerings.length % 2 !== 0;
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                {offerings.map((item, index) => {
+                  // Determine if this is the very last item AND the total number of items is odd
+                  const isLastAndOdd = index === offerings.length - 1 && offerings.length % 2 !== 0;
 
-                return (
-                  <div
-                    key={item.title}
-                    // If it is the odd one out, make it span 2 columns and center its width
-                    className={isLastAndOdd ? "md:col-span-2 md:w-[calc(50%-1.5rem)] md:mx-auto w-full" : "w-full"}
-                  >
-                    <InteractiveCarouselCard item={item} variant="light" />
-                  </div>
-                );
-              })}
+                  return (
+                    <div
+                      key={item.title}
+                      // If it is the odd one out, make it span 2 columns and center its width
+                      className={isLastAndOdd ? "md:col-span-2 md:w-[calc(50%-1.5rem)] md:mx-auto w-full" : "w-full"}
+                    >
+                      <InteractiveCarouselCard item={item} variant="light" />
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* FOOTNOTE PLACED NATIVELY AT THE BOTTOM OF THE STRUCTURAL CONTAINER */}
+              <div className="w-full mt-10 text-center md:text-right text-sm text-[#0A1E3C]/80 font-medium tracking-wide md:pr-2 px-4">
+                * All prices are exclusive of GST
+              </div>
             </div>
           </Reveal>
         </div>

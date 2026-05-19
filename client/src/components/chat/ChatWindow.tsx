@@ -111,7 +111,7 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ onClose, isOpen }) => {
               Work for a full day at Distinct Co-Working.
             </p>
             <p className="mt-2 text-sm font-semibold text-foreground">
-              Only {'\u20B9'}349
+              Starting at Only {'\u20B9'}500/- 
             </p>
             <button
               onClick={handleDayPassClick}
